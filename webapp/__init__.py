@@ -22,8 +22,9 @@ def create_app():
         return User.query.get(user_id)
 
     @app.route('/')
+    @login_required
     def index():
-        title = "Новости Python"
+        title = "SCCM_finder"
         weather = weather_by_city(app.config["WEATHER_DEFAULT_CITY"])
         news_list = News.query.all()
         return render_template('index.html', page_title=title, weather=weather, news_list=news_list)
@@ -33,7 +34,7 @@ def create_app():
     def login():
         if current_user.is_authenticated:
             return redirect(url_for('index'))
-        title = 'Авторизация'
+        title = 'Аутентификация'
         login_form = LoginForm()
         return render_template('login.html', page_title=title, form=login_form)
         
@@ -46,9 +47,13 @@ def create_app():
                 login_user(user)
                 flash('Вы успешно вошли на сайт')
                 return redirect(url_for('index'))
+            if not user:
+                flash('Неправильные имя пользователя')
+                return redirect(url_for('login'))
+            if not user.check_password(form.password.data):
+                flash('Неправильный пароль')
+                return redirect(url_for('login'))
 
-        flash('Неправильные имя или пароль')
-        return redirect(url_for('login'))
 
     @app.route('/logout')
     def logout():
