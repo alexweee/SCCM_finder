@@ -1,8 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-
-
-
 from webapp.forms import LoginForm
 from webapp.model import db, News, User
 from webapp.weather import weather_by_city
@@ -25,10 +22,20 @@ def create_app():
     @login_required
     def index():
         title = "SCCM_finder"
-        weather = weather_by_city(app.config["WEATHER_DEFAULT_CITY"])
-        news_list = News.query.all()
-        return render_template('index.html', page_title=title, weather=weather, news_list=news_list)
-  
+        colours = ['Google Chrome', 'Kaspersky Antivirus']
+        return render_template('index.html', page_title=title, colours=colours)
+
+#функция поиска кнопки
+    @app.route('/data-process')
+    def contact():
+        if request.method == 'POST':
+            if request.form['submit_button'] == 'Поиск':
+                pass # do something
+            else:
+                pass # unknown
+        elif request.method == 'GET':
+            return render_template('index.html', form=form)
+
 
     @app.route('/login')
     def login():
@@ -68,5 +75,10 @@ def create_app():
             return 'Привет админ!'
         else:
             return 'Ты не админ'
+
+ #   @app.route('/test', methods=['GET'])
+ #   def dropdown():
+ #       colours = ['Google Chrome', 'Kaspersky Antivirus', 'Black', 'Orange']
+ #       return render_template('test.html', colours=colours)
 
     return app
