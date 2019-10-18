@@ -1,6 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from webapp.forms import LoginForm
+from webapp.forms import LoginForm, ContactForm
 from webapp.model import db, News, User
 from webapp.weather import weather_by_city
 
@@ -26,15 +26,14 @@ def create_app():
         return render_template('index.html', page_title=title, colours=colours)
 
 #функция поиска кнопки
-    @app.route('/data-process')
+    @app.route('/contact', methods=['GET', 'POST'])
     def contact():
-        if request.method == 'POST':
-            if request.form['submit_button'] == 'Поиск':
-                pass # do something
-            else:
-                pass # unknown
-        elif request.method == 'GET':
-            return render_template('index.html', form=form)
+        form = ContactForm()
+        if form.validate_on_submit():
+                print('ВСЕ ОКОККОКОКОКОКОК')
+                flash('ВСЕ ОКОККОКОКОКОКОК')
+        return render_template('index.html', form=form)
+
 
 
     @app.route('/login')
