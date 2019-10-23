@@ -6,16 +6,17 @@
 </head>
 <body>
 <h1> {{ page_title }} </h1>
-<input type="submit" name="submit2" value="Поиск">
-<select name= colours method="GET" action="/">
-    {% for colour in colours %}
-    <option value= "{{colour}}" SELECTED>{{colour}}</option>"
-    {% endfor %}
-</select>
-<form action="{{ url_for('contact') }}" method="POST">
-        {{ form.submit2() }}
+<form class="form-inline" method="POST" action="{{ url_for('proccess_search') }}">
+    <div class="form-group">
+        <div class="input-group">
+            <select name=dropdown>
+                {% for app in dropdown %}
+                <option value="{{app}}">{{app}}</option>"
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-default">Go</button>
+    </div>
 </form>
-
-</select>
 </body>
 </html>

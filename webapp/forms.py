@@ -10,4 +10,4 @@ class LoginForm(FlaskForm):
 
 
 class ContactForm(FlaskForm):
-    submit2 = SubmitField('Do this', render_kw={"class": "btn btn-primary"})
+    submit = SubmitField('Do this', render_kw={"class": "btn btn-primary"})

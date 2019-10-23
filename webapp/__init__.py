@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from webapp.forms import LoginForm, ContactForm
 from webapp.model import db, News, User
@@ -17,25 +17,25 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(user_id)
-
+#-----------------------------------------------------------
     @app.route('/')
     @login_required
     def index():
         title = "SCCM_finder"
-        colours = ['Google Chrome', 'Kaspersky Antivirus']
-        return render_template('index.html', page_title=title, colours=colours)
+        application_dropdown = ['Google Chrome', 'Kaspersky Antivirus']
+        return render_template('index.html', page_title=title, dropdown=application_dropdown)
 
-#функция поиска кнопки
-    @app.route('/contact', methods=['GET', 'POST'])
-    def contact():
-        form = ContactForm()
-        if form.validate_on_submit():
-                print('ВСЕ ОКОККОКОКОКОКОК')
-                flash('ВСЕ ОКОККОКОКОКОКОК')
-        return render_template('index.html', form=form)
+    @app.route('/proccess_search', methods=['GET', 'POST'])
+    def proccess_search():
+        user_select = request.form.get('dropdown')
+        return redirect(url_for(f'/search/{user_select}'))
 
+    @app.route('/search/<app_name>')
+    def search_app(app_name: str):
+        return(str(app_name))
 
-
+        
+#-------------------------------------------------------------
     @app.route('/login')
     def login():
         if current_user.is_authenticated:
