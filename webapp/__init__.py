@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_user, logout_user, current_user, log
 from webapp.forms import LoginForm, ContactForm
 from webapp.model import db, News, User
 from webapp.weather import weather_by_city
+import sql_connector_01
 
 
 def create_app():
@@ -28,13 +29,13 @@ def create_app():
     @app.route('/proccess_search', methods=['GET', 'POST'])
     def proccess_search():
         user_select = request.form.get('dropdown')
-        return redirect(url_for(f'/search/{user_select}'))
+        return redirect((f'/search/{user_select}'))
 
     @app.route('/search/<app_name>')
     def search_app(app_name: str):
         return(str(app_name))
+        return sql_connector_01.sql_connection(str(app_name))
 
-        
 #-------------------------------------------------------------
     @app.route('/login')
     def login():
