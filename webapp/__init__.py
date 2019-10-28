@@ -33,9 +33,9 @@ def create_app():
 
     @app.route('/search/<app_name>')
     def search_app(app_name: str):
-     #   return(str(app_name))
-        result = str(sql_connector_01.sql_connection(str(app_name)))
+        result = list(sql_connector_01.sql_connection(str(app_name)))
         return result
+
         
 
 #-------------------------------------------------------------
